@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "avilla-meal-planner/*": ["./src/*"],
-      "avilla-meal-planner": ["./src/index.ts"]
+      "@cjavdev/meal-planner/*": ["./src/*"],
+      "@cjavdev/meal-planner": ["./src/index.ts"]
     },
     "noEmit": true,
 

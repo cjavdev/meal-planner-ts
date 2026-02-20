@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'avilla-meal-planner/internal/uploads';
-import { toFile } from 'avilla-meal-planner/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@cjavdev/meal-planner/internal/uploads';
+import { toFile } from '@cjavdev/meal-planner/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

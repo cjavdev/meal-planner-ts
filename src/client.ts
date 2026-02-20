@@ -39,14 +39,19 @@ import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
-   * Defaults to process.env['AVILLA_MEAL_PLANNER_API_KEY'].
+   * Defaults to process.env['MEAL_FAMILY_ID'].
+   */
+  familyID?: string | undefined;
+
+  /**
+   * Defaults to process.env['MEAL_API_KEY'].
    */
   apiKey?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['AVILLA_MEAL_PLANNER_BASE_URL'].
+   * Defaults to process.env['MEAL_PLANNER_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -100,7 +105,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['AVILLA_MEAL_PLANNER_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['MEAL_PLANNER_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -113,9 +118,10 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Avilla Meal Planner API.
+ * API Client for interfacing with the Meal Planner API.
  */
-export class AvillaMealPlanner {
+export class MealPlanner {
+  familyID: string;
   apiKey: string | null;
 
   baseURL: string;
@@ -131,10 +137,11 @@ export class AvillaMealPlanner {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Avilla Meal Planner API.
+   * API Client for interfacing with the Meal Planner API.
    *
-   * @param {string | null | undefined} [opts.apiKey=process.env['AVILLA_MEAL_PLANNER_API_KEY'] ?? null]
-   * @param {string} [opts.baseURL=process.env['AVILLA_MEAL_PLANNER_BASE_URL'] ?? https://api.example.com] - Override the default base URL for the API.
+   * @param {string | undefined} [opts.familyID=process.env['MEAL_FAMILY_ID'] ?? undefined]
+   * @param {string | null | undefined} [opts.apiKey=process.env['MEAL_API_KEY'] ?? null]
+   * @param {string} [opts.baseURL=process.env['MEAL_PLANNER_BASE_URL'] ?? https://api.example.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -143,25 +150,33 @@ export class AvillaMealPlanner {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('AVILLA_MEAL_PLANNER_BASE_URL'),
-    apiKey = readEnv('AVILLA_MEAL_PLANNER_API_KEY') ?? null,
+    baseURL = readEnv('MEAL_PLANNER_BASE_URL'),
+    familyID = readEnv('MEAL_FAMILY_ID'),
+    apiKey = readEnv('MEAL_API_KEY') ?? null,
     ...opts
   }: ClientOptions = {}) {
+    if (familyID === undefined) {
+      throw new Errors.MealPlannerError(
+        "The MEAL_FAMILY_ID environment variable is missing or empty; either provide it, or instantiate the MealPlanner client with an familyID option, like new MealPlanner({ familyID: 'My Family ID' }).",
+      );
+    }
+
     const options: ClientOptions = {
+      familyID,
       apiKey,
       ...opts,
       baseURL: baseURL || `https://api.example.com`,
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? AvillaMealPlanner.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? MealPlanner.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('AVILLA_MEAL_PLANNER_LOG'), "process.env['AVILLA_MEAL_PLANNER_LOG']", this) ??
+      parseLogLevel(readEnv('MEAL_PLANNER_LOG'), "process.env['MEAL_PLANNER_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -170,6 +185,7 @@ export class AvillaMealPlanner {
 
     this._options = options;
 
+    this.familyID = familyID;
     this.apiKey = apiKey;
   }
 
@@ -186,6 +202,7 @@ export class AvillaMealPlanner {
       logLevel: this.logLevel,
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
+      familyID: this.familyID,
       apiKey: this.apiKey,
       ...options,
     });
@@ -236,7 +253,7 @@ export class AvillaMealPlanner {
         if (value === null) {
           return `${encodeURIComponent(key)}=`;
         }
-        throw new Errors.AvillaMealPlannerError(
+        throw new Errors.MealPlannerError(
           `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
         );
       })
@@ -723,10 +740,10 @@ export class AvillaMealPlanner {
     }
   }
 
-  static AvillaMealPlanner = this;
+  static MealPlanner = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static AvillaMealPlannerError = Errors.AvillaMealPlannerError;
+  static MealPlannerError = Errors.MealPlannerError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -745,9 +762,9 @@ export class AvillaMealPlanner {
   families: API.Families = new API.Families(this);
 }
 
-AvillaMealPlanner.Families = Families;
+MealPlanner.Families = Families;
 
-export declare namespace AvillaMealPlanner {
+export declare namespace MealPlanner {
   export type RequestOptions = Opts.RequestOptions;
 
   export {

@@ -55,12 +55,12 @@ $ cd avilla-meal-planner-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link avilla-meal-planner
+$ yarn link @cjavdev/meal-planner
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global avilla-meal-planner
+$ pnpm link -—global @cjavdev/meal-planner
 ```
 
 ## Running tests

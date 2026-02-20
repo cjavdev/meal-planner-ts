@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from 'avilla-meal-planner/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from '@cjavdev/meal-planner/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 

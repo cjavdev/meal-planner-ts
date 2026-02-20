@@ -1,5 +1,5 @@
 import { inspect } from 'node:util';
-import { buildHeaders, type HeadersLike, type NullableHeaders } from 'avilla-meal-planner/internal/headers';
+import { buildHeaders, type HeadersLike, type NullableHeaders } from '@cjavdev/meal-planner/internal/headers';
 
 function inspectNullableHeaders(headers: NullableHeaders) {
   return `NullableHeaders {${[

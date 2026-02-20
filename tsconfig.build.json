@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "avilla-meal-planner/*": ["./dist/src/*"],
-      "avilla-meal-planner": ["./dist/src/index.ts"]
+      "@cjavdev/meal-planner/*": ["./dist/src/*"],
+      "@cjavdev/meal-planner": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,
