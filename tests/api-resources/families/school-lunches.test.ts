@@ -1,8 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import AvillaMealPlanner from 'avilla-meal-planner';
+import MealPlanner from '@cjavdev/meal-planner';
 
-const client = new AvillaMealPlanner({
+const client = new MealPlanner({
+  familyID: 'My Family ID',
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
@@ -92,7 +93,7 @@ describe('resource schoolLunches', () => {
         },
         { path: '/_stainless_unknown_path' },
       ),
-    ).rejects.toThrow(AvillaMealPlanner.NotFoundError);
+    ).rejects.toThrow(MealPlanner.NotFoundError);
   });
 
   // Mock server tests are disabled

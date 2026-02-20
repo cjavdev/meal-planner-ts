@@ -1,8 +1,8 @@
 {
-  "name": "avilla-meal-planner",
+  "name": "@cjavdev/meal-planner",
   "version": "0.0.1",
-  "description": "The official TypeScript library for the Avilla Meal Planner API",
-  "author": "Avilla Meal Planner <>",
+  "description": "The official TypeScript library for the Meal Planner API",
+  "author": "Meal Planner <>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",

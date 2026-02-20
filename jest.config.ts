@@ -7,8 +7,8 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^avilla-meal-planner$': '<rootDir>/src/index.ts',
-    '^avilla-meal-planner/(.*)$': '<rootDir>/src/$1',
+    '^@cjavdev/meal-planner$': '<rootDir>/src/index.ts',
+    '^@cjavdev/meal-planner/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',

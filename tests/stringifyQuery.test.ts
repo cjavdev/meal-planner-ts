@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { AvillaMealPlanner } from 'avilla-meal-planner';
+import { MealPlanner } from '@cjavdev/meal-planner';
 
-const { stringifyQuery } = AvillaMealPlanner.prototype as any;
+const { stringifyQuery } = MealPlanner.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [

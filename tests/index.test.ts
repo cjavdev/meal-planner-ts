@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'avilla-meal-planner/core/api-promise';
+import { APIPromise } from '@cjavdev/meal-planner/core/api-promise';
 
 import util from 'node:util';
-import AvillaMealPlanner from 'avilla-meal-planner';
-import { APIUserAbortError } from 'avilla-meal-planner';
+import MealPlanner from '@cjavdev/meal-planner';
+import { APIUserAbortError } from '@cjavdev/meal-planner';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
@@ -20,9 +20,10 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
     });
 
@@ -54,14 +55,14 @@ describe('instantiate client', () => {
 
     beforeEach(() => {
       process.env = { ...env };
-      process.env['AVILLA_MEAL_PLANNER_LOG'] = undefined;
+      process.env['MEAL_PLANNER_LOG'] = undefined;
     });
 
     afterEach(() => {
       process.env = env;
     });
 
-    const forceAPIResponseForClient = async (client: AvillaMealPlanner) => {
+    const forceAPIResponseForClient = async (client: MealPlanner) => {
       await new APIPromise(
         client,
         Promise.resolve({
@@ -87,9 +88,10 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         logger: logger,
         logLevel: 'debug',
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
 
@@ -98,7 +100,7 @@ describe('instantiate client', () => {
     });
 
     test('default logLevel is warn', async () => {
-      const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+      const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
       expect(client.logLevel).toBe('warn');
     });
 
@@ -111,9 +113,10 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         logger: logger,
         logLevel: 'info',
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
 
@@ -130,8 +133,12 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AVILLA_MEAL_PLANNER_LOG'] = 'debug';
-      const client = new AvillaMealPlanner({ logger: logger, apiKey: 'My API Key' });
+      process.env['MEAL_PLANNER_LOG'] = 'debug';
+      const client = new MealPlanner({
+        logger: logger,
+        familyID: 'My Family ID',
+        apiKey: 'My API Key',
+      });
       expect(client.logLevel).toBe('debug');
 
       await forceAPIResponseForClient(client);
@@ -147,11 +154,15 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AVILLA_MEAL_PLANNER_LOG'] = 'not a log level';
-      const client = new AvillaMealPlanner({ logger: logger, apiKey: 'My API Key' });
+      process.env['MEAL_PLANNER_LOG'] = 'not a log level';
+      const client = new MealPlanner({
+        logger: logger,
+        familyID: 'My Family ID',
+        apiKey: 'My API Key',
+      });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
-        'process.env[\'AVILLA_MEAL_PLANNER_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
+        'process.env[\'MEAL_PLANNER_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
       );
     });
 
@@ -164,10 +175,11 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AVILLA_MEAL_PLANNER_LOG'] = 'debug';
-      const client = new AvillaMealPlanner({
+      process.env['MEAL_PLANNER_LOG'] = 'debug';
+      const client = new MealPlanner({
         logger: logger,
         logLevel: 'off',
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
 
@@ -184,10 +196,11 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AVILLA_MEAL_PLANNER_LOG'] = 'not a log level';
-      const client = new AvillaMealPlanner({
+      process.env['MEAL_PLANNER_LOG'] = 'not a log level';
+      const client = new MealPlanner({
         logger: logger,
         logLevel: 'debug',
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
       expect(client.logLevel).toBe('debug');
@@ -197,27 +210,30 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
 
     test('multiple default query params', () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
 
     test('overriding with `undefined`', () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
@@ -225,8 +241,9 @@ describe('instantiate client', () => {
   });
 
   test('custom fetch', async () => {
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
       baseURL: 'http://localhost:5000/',
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: (url) => {
         return Promise.resolve(
@@ -243,16 +260,18 @@ describe('instantiate client', () => {
 
   test('explicit global fetch', async () => {
     // make sure the global fetch type is assignable to our Fetch type
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
       baseURL: 'http://localhost:5000/',
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: defaultFetch,
     });
   });
 
   test('custom signal', async () => {
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: (...args) => {
         return new Promise((resolve, reject) =>
@@ -283,8 +302,9 @@ describe('instantiate client', () => {
       return new Response(JSON.stringify({}), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
       baseURL: 'http://localhost:5000/',
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: testFetch,
     });
@@ -295,65 +315,75 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/custom/path/',
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/custom/path',
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     afterEach(() => {
-      process.env['AVILLA_MEAL_PLANNER_BASE_URL'] = undefined;
+      process.env['MEAL_PLANNER_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new AvillaMealPlanner({ baseURL: 'https://example.com', apiKey: 'My API Key' });
+      const client = new MealPlanner({
+        baseURL: 'https://example.com',
+        familyID: 'My Family ID',
+        apiKey: 'My API Key',
+      });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
-      process.env['AVILLA_MEAL_PLANNER_BASE_URL'] = 'https://example.com/from_env';
-      const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+      process.env['MEAL_PLANNER_BASE_URL'] = 'https://example.com/from_env';
+      const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['AVILLA_MEAL_PLANNER_BASE_URL'] = ''; // empty
-      const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+      process.env['MEAL_PLANNER_BASE_URL'] = ''; // empty
+      const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('https://api.example.com');
     });
 
     test('blank env variable', () => {
-      process.env['AVILLA_MEAL_PLANNER_BASE_URL'] = '  '; // blank
-      const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+      process.env['MEAL_PLANNER_BASE_URL'] = '  '; // blank
+      const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('https://api.example.com');
     });
 
     test('in request options', () => {
-      const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+      const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/option/foo',
       );
     });
 
     test('in request options overridden by client options', () => {
-      const client = new AvillaMealPlanner({ apiKey: 'My API Key', baseURL: 'http://localhost:5000/client' });
+      const client = new MealPlanner({
+        familyID: 'My Family ID',
+        apiKey: 'My API Key',
+        baseURL: 'http://localhost:5000/client',
+      });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/client/foo',
       );
     });
 
     test('in request options overridden by env variable', () => {
-      process.env['AVILLA_MEAL_PLANNER_BASE_URL'] = 'http://localhost:5000/env';
-      const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+      process.env['MEAL_PLANNER_BASE_URL'] = 'http://localhost:5000/env';
+      const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/env/foo',
       );
@@ -361,19 +391,24 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new AvillaMealPlanner({ maxRetries: 4, apiKey: 'My API Key' });
+    const client = new MealPlanner({
+      maxRetries: 4,
+      familyID: 'My Family ID',
+      apiKey: 'My API Key',
+    });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new AvillaMealPlanner({ apiKey: 'My API Key' });
+    const client2 = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
     expect(client2.maxRetries).toEqual(2);
   });
 
   describe('withOptions', () => {
     test('creates a new client with overridden options', async () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/',
         maxRetries: 3,
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
 
@@ -396,10 +431,11 @@ describe('instantiate client', () => {
     });
 
     test('inherits options from the parent client', async () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/',
         defaultHeaders: { 'X-Test-Header': 'test-value' },
         defaultQuery: { 'test-param': 'test-value' },
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
 
@@ -415,9 +451,10 @@ describe('instantiate client', () => {
     });
 
     test('respects runtime property changes when creating new client', () => {
-      const client = new AvillaMealPlanner({
+      const client = new MealPlanner({
         baseURL: 'http://localhost:5000/',
         timeout: 1000,
+        familyID: 'My Family ID',
         apiKey: 'My API Key',
       });
 
@@ -447,21 +484,25 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['AVILLA_MEAL_PLANNER_API_KEY'] = 'My API Key';
-    const client = new AvillaMealPlanner();
+    process.env['MEAL_FAMILY_ID'] = 'My Family ID';
+    process.env['MEAL_API_KEY'] = 'My API Key';
+    const client = new MealPlanner();
+    expect(client.familyID).toBe('My Family ID');
     expect(client.apiKey).toBe('My API Key');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['AVILLA_MEAL_PLANNER_API_KEY'] = 'another My API Key';
-    const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+    process.env['MEAL_FAMILY_ID'] = 'another My Family ID';
+    process.env['MEAL_API_KEY'] = 'another My API Key';
+    const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
+    expect(client.familyID).toBe('My Family ID');
     expect(client.apiKey).toBe('My API Key');
   });
 });
 
 describe('request building', () => {
-  const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+  const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
 
   describe('custom headers', () => {
     test('handles undefined', async () => {
@@ -480,7 +521,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new AvillaMealPlanner({ apiKey: 'My API Key' });
+  const client = new MealPlanner({ familyID: 'My Family ID', apiKey: 'My API Key' });
 
   class Serializable {
     toJSON() {
@@ -565,7 +606,8 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       timeout: 10,
       fetch: testFetch,
@@ -599,7 +641,8 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: testFetch,
       maxRetries: 4,
@@ -627,7 +670,8 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: testFetch,
       maxRetries: 4,
@@ -660,7 +704,8 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: testFetch,
       maxRetries: 4,
@@ -693,7 +738,8 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new AvillaMealPlanner({
+    const client = new MealPlanner({
+      familyID: 'My Family ID',
       apiKey: 'My API Key',
       fetch: testFetch,
       maxRetries: 4,
@@ -727,7 +773,11 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new AvillaMealPlanner({ apiKey: 'My API Key', fetch: testFetch });
+    const client = new MealPlanner({
+      familyID: 'My Family ID',
+      apiKey: 'My API Key',
+      fetch: testFetch,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -757,7 +807,11 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new AvillaMealPlanner({ apiKey: 'My API Key', fetch: testFetch });
+    const client = new MealPlanner({
+      familyID: 'My Family ID',
+      apiKey: 'My API Key',
+      fetch: testFetch,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
