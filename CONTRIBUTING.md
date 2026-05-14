@@ -42,15 +42,15 @@ If you’d like to use the repository from source, you can either install from g
 To install via git:
 
 ```sh
-$ npm install git+ssh://git@github.com:stainless-sdks/avilla-meal-planner-typescript.git
+$ npm install git+ssh://git@github.com:cjavdev/meal-planner-ts.git
 ```
 
 Alternatively, to link a local copy of the repo:
 
 ```sh
 # Clone
-$ git clone https://www.github.com/stainless-sdks/avilla-meal-planner-typescript
-$ cd avilla-meal-planner-typescript
+$ git clone https://www.github.com/cjavdev/meal-planner-ts
+$ cd meal-planner-ts
 
 # With yarn
 $ yarn link
