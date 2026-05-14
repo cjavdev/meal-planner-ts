@@ -1,6 +1,6 @@
 {
   "name": "@cjavdev/meal-planner",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The official TypeScript library for the Meal Planner API",
   "author": "Meal Planner <>",
   "types": "dist/index.d.ts",
