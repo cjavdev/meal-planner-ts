@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.1 (2026-07-11)
+
+Full Changelog: [v0.1.0...v0.1.1](https://github.com/cjavdev/meal-planner-ts/compare/v0.1.0...v0.1.1)
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([bab9d11](https://github.com/cjavdev/meal-planner-ts/commit/bab9d11e1149290d0064fa5c853df2614aee6e03))
+* **client:** send content-type header for requests with an omitted optional body ([8ae90be](https://github.com/cjavdev/meal-planner-ts/commit/8ae90be775c7db5e78cb22bcd26fd0cd3765b611))
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([34b1c38](https://github.com/cjavdev/meal-planner-ts/commit/34b1c38f4a4b1276c830403f8cdc89abde3d6165))
+
+
+### Chores
+
+* **tests:** remove redundant File import ([99cda41](https://github.com/cjavdev/meal-planner-ts/commit/99cda41bdab9b228612e85320967b68f38329116))
+
 ## 0.1.0 (2026-05-14)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/cjavdev/meal-planner-ts/compare/v0.0.1...v0.1.0)
